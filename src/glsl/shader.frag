@@ -1,3 +1,4 @@
+// from https://codepen.io/iko/pen/ZeqvJO
 uniform float iTime;
 uniform vec2 iResolution;
 uniform vec4 iMouse;
@@ -149,7 +150,7 @@ float heightMapTracing(vec3 ori, vec3 dir, out vec3 p) {
   float tm = 0.0;
   float tx = 1000.0;    
   float hx = map(ori + dir * tx);
-  if(hx > 0.0) return tx;   
+  if(hx > 0.0) return tx;
   
   float hm = map(ori + dir * tm);    
   float tmid = 0.0;
@@ -180,7 +181,9 @@ void main() {
   // ray
   vec3 ang = vec3(0.0, 2.0, 0.0);    
   vec3 ori = vec3(0.0,3.5,time*5.0);
-  vec3 dir = normalize(vec3(uv.xy,-2.0)); dir.z += length(uv) * 0.5;
+  vec3 dir = normalize(vec3(uv.xy,-2.0));
+  dir.z += (uv.x*uv.x+pow(uv.y-pow(abs(uv.x), 2.0 / 3.0), 2.0)) * 0.1;
+  dir.z += min(length(uv), 0.1) * 7.0;
   dir = normalize(dir) * fromEuler(ang);
 
   // tracing
